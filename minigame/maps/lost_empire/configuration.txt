@@ -1,0 +1,71 @@
+# Maximum number of players
+max_player = 12
+
+# Player positions
+pos1 = 1091,49,1008
+pos2 = 1112,49,1023
+pos3 = 1126,49,1045
+pos4 = 1126,49,1091
+pos5 = 1111,49,1114
+pos6 = 1089,49,1126
+pos7 = 1043,49,1126
+pos8 = 1023,49,1111
+pos9 = 1008,49,1089
+pos10 = 1008,49,1042
+pos11 = 1021,49,1020
+pos12 = 1045,49,1008
+
+# Loot positions
+chest_pos1 = 1089,42,1004,2
+chest_pos2 = 1089,37,1005,2
+chest_pos3 = 1116,42,1021,1
+chest_pos4 = 1115,37,1021,1
+chest_pos5 = 1130,42,1043,1
+chest_pos6 = 1129,37,1043,1
+chest_pos7 = 1130,42,1089,1
+chest_pos8 = 1129,37,1089,1
+chest_pos9 = 1115,42,1112,1
+chest_pos10 = 1114,37,1112,1
+chest_pos11 = 1091,42,1130,0
+chest_pos12 = 1091,37,1129,0
+chest_pos13 = 1045,42,1130,0
+chest_pos14 = 1045,37,1129,0
+chest_pos15 = 1019,42,1113,3
+chest_pos16 = 1020,37,1113,3
+chest_pos17 = 1004,42,1091,3
+chest_pos18 = 1005,37,1091,3
+chest_pos19 = 1004,42,1045,3
+chest_pos20 = 1005,37,1045,3
+chest_pos21 = 1017,42,1022,3
+chest_pos22 = 1018,37,1022,3
+chest_pos23 = 1043,42,1004,2
+chest_pos24 = 1043,37,1005,2
+chest_pos25 = 1081,44,1094,3
+chest_pos26 = 1091,44,1086,2
+chest_pos27 = 1090,44,1039,3
+chest_pos28 = 1092,44,1052,0
+chest_pos29 = 1049,44,1035,1
+chest_pos30 = 1039,44,1045,0
+chest_pos31 = 1039,44,1083,2
+chest_pos32 = 1046,44,1094,1
+chest_pos33 = 1069,48,1065,2
+chest_pos34 = 1069,48,1069,0
+chest_pos35 = 1063,48,1069,0
+chest_pos36 = 1063,48,1065,2
+chest_pos37 = 1066,57,1068,2
+chest_pos38 = 1067,57,1067,3
+chest_pos39 = 1066,57,1066,0
+chest_pos40 = 1065,57,1067,1
+
+# Schematic position
+schem_pos = 992,-20,999
+
+# Center of the map
+map_center = 1066,66,1067
+
+# Death Barrier
+death_barrier = 20
+
+# Remove items
+rm1 = 992,85,991
+rm2 = 1142,-20,1136
