@@ -4,12 +4,6 @@ function minigame.send_message(name, color, message)
     minetest.chat_send_player(name, C(color, message))
 end
 
-function minigame.send_message_to_group(group, color, message)
-    for _, player in ipairs(group) do
-        minetest.chat_send_player(player:get_player_name(), C(color, message))
-    end
-end
-
 function minigame.send_join_message(player, map)
     local map_data = minigame.map_name(map)
     local message = "> " .. player:get_player_name() .. " joined the mini-game."
