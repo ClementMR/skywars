@@ -5,7 +5,7 @@ minetest.register_entity("minigame:npc", {
         visual = "mesh",
         mesh = "mobs_mc_villager.b3d",
         textures = {"mobs_mc_villager_smith.png"},
-        infotext = "Hello, my name is Hector!\n\nPunch me to select a mini-game!",
+        infotext = "Hello, my name is Hector!\n\nPunch me to select a map!",
     },
     on_punch = function(self, hitter, time_from_last_punch, tool_capabilities, direction, damage)
         self.object:set_hp(20)
