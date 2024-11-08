@@ -1,4 +1,4 @@
-# Mini-Game Version [0.1.0]
+# Mini-Game Version [0.0.1]
 
 ![The Giant Circle](screenshot.png)
 
