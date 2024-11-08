@@ -6,7 +6,7 @@
 
 1. Ensure you have Luanti installed. You can download it from [Luanti's official website](https://www.minetest.net/downloads/).
 
-2. Download and install [VoxeLibre](https://github.com/VoxeLibre/VoxeLibre) into your `game` directory.
+2. Download [VoxeLibre](https://github.com/VoxeLibre/VoxeLibre) into your `game` directory.
 
 3. Clone or download this mod into your Minetest `mods` directory.
 
