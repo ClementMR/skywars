@@ -130,8 +130,8 @@ minetest.register_globalstep(function(dtime)
             for _, player in ipairs(map_data.in_game) do
                 local winner = player:get_player_name()
                 local id = "winner"
-                local pos1 = map.map_pos1
-                local pos2 = map.map_pos2
+                local pos1 = map_data.map_pos1
+                local pos2 = map_data.map_pos2
 
                 if pos1 and pos2 then
                     if pos.x < math.min(pos1.x, pos2.x) or pos.x > math.max(pos1.x, pos2.x) or
