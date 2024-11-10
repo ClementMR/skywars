@@ -130,9 +130,17 @@ minetest.register_globalstep(function(dtime)
             for _, player in ipairs(map_data.in_game) do
                 local winner = player:get_player_name()
                 local id = "winner"
-                if player:get_pos().y < map_data.death_barrier then
-                    player:set_hp(0)
+                local pos1 = map.map_pos1
+                local pos2 = map.map_pos2
+
+                if pos1 and pos2 then
+                    if pos.x < math.min(pos1.x, pos2.x) or pos.x > math.max(pos1.x, pos2.x) or
+                       pos.y < math.min(pos1.y, pos2.y) or pos.y > math.max(pos1.y, pos2.y) or
+                       pos.z < math.min(pos1.z, pos2.z) or pos.z > math.max(pos1.z, pos2.z) then
+                        player:set_hp(0)
+                    end
                 end
+
                 if map_data.in_progress == true and map_data.nb <= 1 then
                     if map_data.nb == 1 then
                         -- Winner
@@ -168,7 +176,7 @@ minetest.register_globalstep(function(dtime)
                     minigame.remove_all_spectators(map_data)
                     minigame.init_player(player)
                     -- Reset
-                    minigame.remove_items(map_data.rm1, map_data.rm2)
+                    minigame.remove_items(pos1, pos2)
                     minigame.place_map(map_data.schem_pos, map_name)
                     minigame.reset_data(map_data)
                 end
