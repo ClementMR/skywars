@@ -63,9 +63,6 @@ schem_pos = 992,-20,999
 # Center of the map
 map_center = 1066,66,1067
 
-# Death Barrier
-death_barrier = 20
-
-# Remove items
-rm1 = 992,85,991
-rm2 = 1142,-20,1136
+# Map positions
+map_pos1 = 992,85,991
+map_pos2 = 1142,0,1136
