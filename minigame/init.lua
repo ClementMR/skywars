@@ -130,6 +130,7 @@ minetest.register_globalstep(function(dtime)
             for _, player in ipairs(map_data.in_game) do
                 local winner = player:get_player_name()
                 local id = "winner"
+                local pos = player:get_pos()
                 local pos1 = map_data.map_pos1
                 local pos2 = map_data.map_pos2
 
