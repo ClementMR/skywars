@@ -25,7 +25,7 @@ local function read_configuration(file_path)
                 else
                     minetest.log("warning", "[Mini-game] Invalid chest position format in config: " .. line)
                 end
-            elseif key == "schem_pos" or key == "map_center" or key == "rm1" or key == "rm2" then
+            elseif key == "schem_pos" or key == "map_center" or key == "map_pos1" or key == "map_pos2" then
                 local x, y, z = value:match("([^,]+),([^,]+),([^,]+)")
                 if x and y and z then
                     config[key] = {x = tonumber(x), y = tonumber(y), z = tonumber(z)}
@@ -55,9 +55,8 @@ local function load_maps()
                     schem_pos = config.schem_pos or {x = 0, y = 0, z = 0},
                     map_center = config.map_center or {x = 0, y = 0, z = 0},
                     max_nb = tonumber(config.max_player) or 0,
-                    death_barrier = tonumber(config.death_barrier) or -10,
-                    rm1 = config.rm1 or {},
-                    rm2 = config.rm2 or {},
+                    map_pos1 = config.map_pos1 or {},
+                    map_pos2 = config.map_pos2 or {},
                     nb = 0,
                     in_game = {},
                     spectators = {},
