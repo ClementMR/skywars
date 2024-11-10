@@ -59,9 +59,6 @@ schem_pos = 1992,-20,1999
 # Center of the map
 map_center = 2078,37,2082
 
-# Death Barrier
-death_barrier = -10
-
-# Remove items
-rm1 = 1992,47,1999
-rm2 = 2157,-20,2164
+# Map positions
+map_pos1 = 1992,47,1999
+map_pos2 = 2157,0,2164
