@@ -1,5 +1,5 @@
 local spawnpoint = minetest.setting_get_pos("static_spawnpoint") or {x=0,y=10,z=0}
-local global_countdown = 60
+local countdown = 60
 local min_player = 2
 
 function minigame.map_name(map)
@@ -76,7 +76,7 @@ function minigame.countdown(t, map)
                 minigame.remove_all_spectators(map)
                 minigame.send_message(player:get_player_name(), "nil", "Waiting for more players...")
                 minetest.log("action", "[Mini-game] The countdown was interrupted on '"..map.."'")
-                t = global_countdown
+                t = countdown
             end
         end
     else
@@ -163,7 +163,7 @@ function minigame.join_game(player, map)
         end
         if map_data.nb == min_player then
             minetest.log("action", "[Mini-game] The countdown is starting on '"..map.."'")
-            minigame.countdown(global_countdown, map)
+            minigame.countdown(countdown, map)
         elseif map_data.nb < min_player then
             minigame.send_message(player:get_player_name(), "nil", "Waiting for more players...")
         end
