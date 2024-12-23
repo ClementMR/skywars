@@ -46,10 +46,6 @@ end
 local function load_maps()
     local config = read_file(minetest.get_modpath("minigame") .. "/map" .. "/configuration.txt")
     if config then
-        mg.game_active = false
-        mg.in_game = {}
-        mg.spectators = {}
-        mg.player_count = 0
         mg.player_pos = config.player_pos or {}
         mg.map_pos1 = config.map_pos1 or {}
         mg.map_pos2 = config.map_pos2 or {}
