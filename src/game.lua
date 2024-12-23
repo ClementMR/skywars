@@ -1,4 +1,4 @@
-local countdown = 10
+local countdown = 14
 local min_player = 2
 local max_player = 12
 
