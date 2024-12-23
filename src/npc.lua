@@ -3,22 +3,23 @@ minetest.register_entity("minigame:npc", {
         hp_max = 20,
         selectionbox = { -0.25, 0, -0.25, 0.25, 2, 0.25 },
         visual = "mesh",
-        mesh = "mobs_mc_villager.b3d",
-        textures = {"mobs_mc_villager_smith.png"},
-        infotext = "Hello, my name is Hector!\n\nPunch me to select a map!",
+        mesh = "character.b3d",
+        textures = {"character.png"},
+        infotext = "Hello, my name is Hector!\n\nRight-click to select a map!",
     },
     on_punch = function(self, hitter, time_from_last_punch, tool_capabilities, direction, damage)
-        self.object:set_hp(20)
-        minetest.show_formspec(hitter:get_player_name(), "minigame:map_selection", minigame.map_form())
-        return true
+        return self.object:set_hp(20)
     end,
     on_rightclick = function(self, clicker)
-        minetest.show_formspec(clicker:get_player_name(), "minigame:map_selection", minigame.map_form())
-        minetest.sound_play("npc-voice", {
-            pos = self.object:get_pos(),
-            max_hear_distance = 10,
-            gain = 1.0,
-        })
+        if math.random(1, 10) == 1 then
+            minetest.sound_play("npc-voice", {
+                pos = self.object:get_pos(),
+                max_hear_distance = 10,
+                gain = 1.0,
+            })
+        end
+        mg.send_message(
+            clicker:get_player_name(), color_api.f_text.green, "Hector: This function isn't implemented yet.")
     end,
     on_step = function(self, dtime)
         local pos = self.object:get_pos()
@@ -45,6 +46,7 @@ minetest.register_craftitem("minigame:npc", {
     description = "Mini-game NPC",
     inventory_image = "default_stick.png^[multiply:#00FF00",
     range = 10.0,
+    param2 = "facedir",
     on_use = function(itemstack, user, pointed_thing)
         local pos = pointed_thing.above
         pos.y = pos.y - 0.5
