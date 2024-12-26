@@ -11,9 +11,9 @@ local treasures = {
     {name = "default:wood", chance = 0.9},
     {name = "default:stone", chance = 1},
 }
---[[
+
 if minetest.get_modpath("3d_armor") then
-    treasures = {
+    local armor = {
         {name = "3d_armor:helmet_steel", max = 1, chance = 0.2},
         {name = "3d_armor:chestplate_steel", max = 1, chance = 0.2},
         {name = "3d_armor:leggings_steel", max = 1, chance = 0.2},
@@ -23,7 +23,11 @@ if minetest.get_modpath("3d_armor") then
         {name = "3d_armor:leggings_wood", max = 1, chance = 0.4},
         {name = "3d_armor:boots_wood", max = 1, chance = 0.4}
     }
-end]]
+
+    for _, armor in ipairs(armor) do
+        table.insert(treasures, armor)
+    end
+end
 
 function skywars.fill_chests(pos)
     local meta = minetest.get_meta(pos)
