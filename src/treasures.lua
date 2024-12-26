@@ -13,7 +13,7 @@ local treasures = {
 }
 
 if minetest.get_modpath("3d_armor") then
-    local armor = {
+    local armors = {
         {name = "3d_armor:helmet_steel", max = 1, chance = 0.2},
         {name = "3d_armor:chestplate_steel", max = 1, chance = 0.2},
         {name = "3d_armor:leggings_steel", max = 1, chance = 0.2},
@@ -24,7 +24,7 @@ if minetest.get_modpath("3d_armor") then
         {name = "3d_armor:boots_wood", max = 1, chance = 0.4}
     }
 
-    for _, armor in ipairs(armor) do
+    for _, armor in ipairs(armors) do
         table.insert(treasures, armor)
     end
 end
