@@ -29,14 +29,7 @@ function skywars.clear_inv(player)
     player:get_inventory():set_list("craftpreview", {})
 end
 
-local function update_stamina(player, value)
-    -- function no released yet
-end
-
 function skywars.update_status(player)
-    if minetest.get_modpath("stamina") then
-        update_stamina(player, 20)
-    end
     player:set_hp(20)
 end
 
