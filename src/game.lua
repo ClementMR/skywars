@@ -148,11 +148,6 @@ minetest.register_globalstep(function(dtime)
         for i, player in ipairs(skywars.get_players()) do
             -- Map is still active
             if skywars.is_game_active() then
-                -- Player is outside the map
-                if skywars.is_player_outside(player) then
-                    player:set_hp(0)
-                end
-
                 -- Player is the last one
                 if skywars.is_last_player() then
                     skywars.winner(player) -- Shown to winner
@@ -165,6 +160,11 @@ minetest.register_globalstep(function(dtime)
                     skywars.remove_items(skywars.map_pos1, skywars.map_pos2)
 
                     skywars.game_active = false
+                end
+
+                -- Player is outside the map
+                if skywars.is_player_outside(player) then
+                    player:set_hp(0)
                 end
             else
                 -- Player can't leave a box
