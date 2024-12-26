@@ -1,4 +1,4 @@
-local spawnpoint = minetest.setting_get_pos("static_spawnpoint") or {x=0,y=30,z=0}
+local spawnpoint = minetest.setting_get_pos("static_spawnpoint") or {x=0,y=5,z=0}
 
 local function clear_armor(player)
     local name, armor_inv = armor:get_valid_player(player, "[clearinv]")
