@@ -91,7 +91,7 @@ function skywars.start_game()
         skywars.fast_hud(
             player, 
             "countdown", 
-            "The Game Begins!", 
+            "Game Starts!", 
             "0x00FF00", 
             0.5,
             0.4,
@@ -138,38 +138,42 @@ local timer = 0
 minetest.register_globalstep(function(dtime)
     timer = timer + dtime
 
-    -- Hide nametag
-    for _, player in ipairs(skywars.get_players()) do
+    if skywars.is_game_active() then
+        -- Game is still active and there is no player
+        if skywars.is_player_count_null() then
+            skywars.remove_all_spectators()
+            skywars.remove_items(skywars.map_pos1, skywars.map_pos2)
+
+            skywars.game_active = false
+        end
+    end
+
+    for i, player in ipairs(skywars.get_players()) do
+        if skywars.is_game_active() then
+            -- Last player
+            if skywars.is_last_player() then
+                skywars.winner(player) -- Shown to winner
+                skywars.remove_player(player)
+                skywars.init_player(player)
+            end
+        else
+            -- Players can't leave their box
+            if vector.distance(player:get_pos(), skywars.player_pos[i]) > 2 then
+                player:set_pos(skywars.player_pos[i])
+            end
+        end
+        -- Hide nametags
         player:set_properties({nametag_color = { r = 225, g = 225, b = 225, a = 0 }})
     end
 
-    if timer >= 1 then
+    if timer >= 3 then
         timer = 0
+
         for i, player in ipairs(skywars.get_players()) do
-            -- Map is still active
             if skywars.is_game_active() then
-                -- Player is the last one
-                if skywars.is_last_player() then
-                    skywars.winner(player) -- Shown to winner
-                    skywars.init_player(player)
-                end
-
-                -- Game is still active and there is no player
-                if skywars.is_player_count_null() then
-                    skywars.remove_all_spectators()
-                    skywars.remove_items(skywars.map_pos1, skywars.map_pos2)
-
-                    skywars.game_active = false
-                end
-
                 -- Player is outside the map
                 if skywars.is_player_outside(player) then
                     player:set_hp(0)
-                end
-            else
-                -- Player can't leave a box
-                if vector.distance(player:get_pos(), skywars.player_pos[i]) > 2 then
-                    player:set_pos(skywars.player_pos[i])
                 end
             end
         end
