@@ -1,4 +1,4 @@
-# Mini-Game Version [0.0.1-bis]
+# Skywars
 
 ![Lost Empire](screenshot.png)
 
@@ -14,7 +14,7 @@
 
 - Host a new world.
 - Ensure the mod is enabled.
-- Run `/join`.
+- Run `/join` or right-click on a Skywars NPC.
 
 The game requires at least two players.
 
