@@ -20,7 +20,7 @@ local function clear_armor(player)
     armor:set_player_armor(player)
 end
 
-function mg.clear_inv(player)
+function skywars.clear_inv(player)
     if minetest.get_modpath("3d_armor") then
         clear_armor(player)
     end
@@ -33,18 +33,18 @@ local function update_stamina(player, value)
     -- function no released yet
 end
 
-function mg.update_status(player)
+function skywars.update_status(player)
     if minetest.get_modpath("stamina") then
         update_stamina(player, 20)
     end
     player:set_hp(20)
 end
 
-function mg.init_player(player)
-    if not mg.is_admin(player) then
-        mg.reset_privileges(player)
-        mg.clear_inv(player)
+function skywars.init_player(player)
+    if not skywars.is_admin(player) then
+        skywars.reset_privileges(player)
+        skywars.clear_inv(player)
     end
     player:set_pos(spawnpoint)
-    mg.update_status(player)
+    skywars.update_status(player)
 end

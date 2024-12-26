@@ -1,44 +1,45 @@
 local C = minetest.colorize
+local log = minetest.log
 
-function mg.is_game_active()
-    if mg.game_active then
+function skywars.is_game_active()
+    if skywars.game_active then
         return true
     end
     return false
 end
 
-function mg.set_game_status(value)
-    mg.game_active = value
+function skywars.set_game_status(value)
+    skywars.game_active = value
 end
 
-function mg.get_players()
+function skywars.get_players()
     local players = {}
-    for _, player in ipairs(mg.in_game) do
+    for _, player in ipairs(skywars.in_game) do
         table.insert(players, player)
     end
     return players or {}
 end
 
-function mg.is_last_player()
-    if mg.player_count == 1 then
+function skywars.is_last_player()
+    if skywars.player_count == 1 then
         return true
     end
     return false
 end
 
-function mg.get_spectators()
+function skywars.get_spectators()
     local spectators = {}
-    for _, player in ipairs(mg.spectators) do
+    for _, player in ipairs(skywars.spectators) do
         table.insert(spectators, player)
     end
     return spectators or {}
 end
 
-function mg.set_spectators_null()
-    mg.spectators = {}
+function skywars.set_spectators_null()
+    skywars.spectators = {}
 end
 
-function mg.get_player_in_list(player, list)
+function skywars.get_player_in_list(player, list)
     for i, p in ipairs(list) do
         if p == player then
             return true
@@ -47,7 +48,7 @@ function mg.get_player_in_list(player, list)
     return false
 end
 
-function mg.remove_player_in_list(player, list)
+function skywars.remove_player_in_list(player, list)
     for i, p in ipairs(list) do
         if p == player then
             table.remove(list, i)
@@ -56,79 +57,83 @@ function mg.remove_player_in_list(player, list)
     end
 end
 
-function mg.get_players()
+function skywars.get_players()
     local players = {}
-    for _, player in ipairs(mg.in_game) do
+    for _, player in ipairs(skywars.in_game) do
         table.insert(players, player)
     end
     return players or {}
 end
 
-function mg.get_player_count()
-    return mg.player_count
+function skywars.get_player_count()
+    return skywars.player_count
 end
 
-function mg.increment_player_count()
-    mg.player_count = mg.player_count + 1
+function skywars.increment_player_count()
+    skywars.player_count = skywars.player_count + 1
 end
 
-function mg.decrement_player_count()
-    mg.player_count = mg.player_count - 1
+function skywars.decrement_player_count()
+    skywars.player_count = skywars.player_count - 1
 end
 
-function mg.is_player_count_null()
-    if mg.get_player_count() == 0 then
+function skywars.is_player_count_null()
+    if skywars.get_player_count() == 0 then
         return true
     end
     return false
 end
 
-function mg.remove_player(player)
-    mg.remove_player_in_list(player, mg.in_game)
-    mg.decrement_player_count()
+function skywars.remove_player(player)
+    skywars.remove_player_in_list(player, skywars.in_game)
+    skywars.decrement_player_count()
 end
 
-function mg.reset_privileges(player)
+function skywars.reset_privileges(player)
     return minetest.set_player_privs(player:get_player_name(), {interact=true, shout=true})
 end
 
-function mg.send_message(name, color, message)
+function skywars.send_message(name, color, message)
     return minetest.chat_send_player(name, C(color, message))
 end
 
-function mg.send_join_message(player)
-    local message = "> " .. player:get_player_name() .. " joined the mini-game."
+function skywars.send_join_message(player)
+    local message = ">> " .. player:get_player_name() .. " joined the mini-game."
 
-    for _, player in ipairs(mg.get_players()) do
-        mg.send_message(player:get_player_name(), color_api.f_text.green, message)
+    for _, player in ipairs(skywars.get_players()) do
+        skywars.send_message(player:get_player_name(), "#00FF00", message)
+    end
+
+    for _, spectator in ipairs(skywars.get_spectators()) do
+        skywars.send_message(spectator:get_player_name(), "#00FF00", message)
     end
 end
 
-function mg.send_leave_message(player)
-    local message = "< " .. player:get_player_name() .. " left the mini-game."
+function skywars.send_leave_message(player)
+    local message = "<< " .. player:get_player_name() .. " left the mini-game."
 
-    for _, player in ipairs(mg.get_players()) do
-        mg.send_message(player:get_player_name(), color_api.f_text.red, message)
+    for _, player in ipairs(skywars.get_players()) do
+        skywars.send_message(player:get_player_name(), "#FF0000", message)
     end
 
-    for _, spectator in ipairs(mg.get_spectators()) do
-        mg.send_message(spectator:get_player_name(), color_api.f_text.red, message)
-    end
-end
-
-function mg.show_player_count()
-    local message = "[Player count] ".. mg.get_player_count() .. " players remaining."
-
-    for _, player in ipairs(mg.get_players()) do
-        mg.send_message(player:get_player_name(), "nil", message)
-    end
-
-    for _, spectator in ipairs(mg.get_spectators()) do
-        mg.send_message(spectator:get_player_name(), "nil", message)
+    for _, spectator in ipairs(skywars.get_spectators()) do
+        skywars.send_message(spectator:get_player_name(), "#FF0000", message)
     end
 end
 
-function mg.winner(player)
+function skywars.show_player_count()
+    local message = "[Player count] ".. skywars.get_player_count() .. " players remaining."
+
+    for _, player in ipairs(skywars.get_players()) do
+        skywars.send_message(player:get_player_name(), "nil", message)
+    end
+
+    for _, spectator in ipairs(skywars.get_spectators()) do
+        skywars.send_message(spectator:get_player_name(), "nil", message)
+    end
+end
+
+function skywars.winner(player)
     local name = player:get_player_name()
     minetest.sound_play(
         "game_winner", 
@@ -136,21 +141,21 @@ function mg.winner(player)
         true
     )
 
-    hud_api.fast_hud(
+    skywars.fast_hud(
         player, 
         "winner", 
         player:get_player_name().." won the game!", 
-        color_api.f_hud.green, 
+        "0x00FF00", 
         0.5, 
         0.25, 
         3, 
         3, 
         3
     )
-    minetest.log("action", "[Winner] " .. name .. " won the game")
+    log("action", "[Winner] " .. name .. " won the game")
 end
 
-function mg.is_admin(player)
+function skywars.is_admin(player)
     if minetest.check_player_privs(player, {game_admin=true}) then
         return true
     end

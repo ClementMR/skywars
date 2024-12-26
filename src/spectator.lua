@@ -1,8 +1,10 @@
+local log = minetest.log
+
 local function set_spectator_privileges(player)
     return minetest.set_player_privs(player:get_player_name(), {shout=true, fly=true, fast=true})
 end
 
-function mg.set_spectator_properties(player)
+function skywars.set_spectator_properties(player)
     player:set_properties({
         makes_footstep_sound = false,
         show_on_minimap = false,
@@ -20,54 +22,54 @@ local function reset_properties(player)
     })
 end
 
-function mg.teleport_spectator(player)
-    return player:set_pos(mg.map_center)
+function skywars.teleport_spectator(player)
+    return player:set_pos(skywars.map_center)
 end
 
-function mg.add_spectator(player)
+function skywars.add_spectator(player)
     local name = player:get_player_name()
 
-    table.insert(mg.spectators, player)
+    table.insert(skywars.spectators, player)
 
     local names = {}
-    for _, spectator in ipairs(mg.get_spectators()) do
+    for _, spectator in ipairs(skywars.get_spectators()) do
         table.insert(names, spectator:get_player_name())
-        mg.send_message(spectator:get_player_name(), color_api.f_text.grey, name.." is now spectating.")
+        skywars.send_message(spectator:get_player_name(), "#909090", name.." is now spectating.")
     end
 
     local message = "You are currently spectating! You can leave spectator mode using /quit\nCurrent spectator(s): " .. table.concat(names, ", ")
-    mg.send_message(name, color_api.f_text.grey, message)
+    skywars.send_message(name, "#909090", message)
 
-    mg.teleport_spectator(player)
+    skywars.teleport_spectator(player)
 
-    if not mg.is_admin(player) then
+    if not skywars.is_admin(player) then
         set_spectator_privileges(player)
     end
 
-    minetest.log("action", "[Spectator] Player " .. name .." became a spectator")
+    log("action", "[Spectator] Player " .. name .." became a spectator")
 end
 
-function mg.remove_spectator(player)
-    if mg.get_player_in_list(player, mg.get_spectators()) then
-        if not mg.is_admin(player) then
-            mg.reset_privileges(player)
+function skywars.remove_spectator(player)
+    if skywars.get_player_in_list(player, skywars.get_spectators()) then
+        if not skywars.is_admin(player) then
+            skywars.reset_privileges(player)
         end
         reset_properties(player)
 
-        mg.remove_player_in_list(player, mg.spectators)
+        skywars.remove_player_in_list(player, skywars.spectators)
 
-        minetest.log("action", "[Spectator] Player " .. player:get_player_name() .." was removed from the spectator list")
+        log("action", "[Spectator] Player " .. player:get_player_name() .." was removed from the spectator list")
     end
 end
 
-function mg.remove_all_spectators()
-    for i, p in ipairs(mg.get_spectators()) do
-        mg.init_player(p)
+function skywars.remove_all_spectators()
+    for i, p in ipairs(skywars.get_spectators()) do
+        skywars.init_player(p)
 
         reset_properties(p)
 
-        minetest.log("action", "[Spectator] Player " .. p:get_player_name() .." was removed from the spectator list")
+        log("action", "[Spectator] Player " .. p:get_player_name() .." was removed from the spectator list")
     end
 
-    mg.set_spectators_null()
+    skywars.set_spectators_null()
 end

@@ -1,66 +1,69 @@
-local countdown = 14
+local countdown = 5
 local min_player = 2
 local max_player = 12
+local log = minetest.log
 
 local function add_player(player)
-    mg.increment_player_count()
+    skywars.increment_player_count()
 
-    table.insert(mg.in_game, player)
+    table.insert(skywars.in_game, player)
 
-    hud_api.fast_hud(
+    skywars.fast_hud(
         player, 
         "player_count", 
-        mg.get_player_count() .. "/" .. max_player, 
-        color_api.f_hud.purple, 
+        skywars.get_player_count() .. "/" .. max_player, 
+        "0xd500ff", 
         0.5, 
         0.55, 
         2, 
         2, 
         1.5
     )
-    minetest.log("action", "[AddPlayer] Player " .. player:get_player_name() .. " was added to the game")
+    log("action", "[Add Player] Player " .. player:get_player_name() .. " was added to the game")
 end
 
-function mg.join_game(player)
+function skywars.join_game(player)
     local name = player:get_player_name()
 
     --Check if the game is active and if the player is already in a mini-game
-    if mg.is_game_active() then
-        mg.add_spectator(player)
+    if skywars.is_game_active() then
+        skywars.add_spectator(player)
 
         return false
-    elseif mg.get_player_in_list(player, mg.get_players()) then
-        mg.send_message(name, color_api.f_text.red, "You are already in a game.")
-        minetest.log("action", "[JoinGame] Player " .. name .. " tried to join a game although he is already in one")
+    elseif skywars.get_player_in_list(player, skywars.get_players()) then
+        skywars.send_message(name, "#FF0000", "You are already in a game.")
+        log("action", "[Join Game] Player " .. name .. " tried to join a game although he is already in one")
 
         return false
     end
 
-    if mg.get_player_count() < max_player then
+    if skywars.get_player_count() < max_player then
 
         -- Add player to the game
         add_player(player)
 
-        player:set_pos(mg.player_pos[mg.get_player_count()])
-        mg.set_box(mg.player_pos[mg.get_player_count()], "minigame:playerbox")
+        player:set_pos(skywars.player_pos[skywars.get_player_count()])
+        skywars.set_box(skywars.player_pos[skywars.get_player_count()], "skywars:playerbox")
 
-        mg.send_join_message(player)
+        skywars.send_join_message(player)
 
-        mg.clear_inv(player)
+        skywars.clear_inv(player)
 
-        mg.update_status(player)
+        skywars.add_and_show_kits(player)
 
-        if mg.get_player_count() == min_player then
-            mg.countdown(countdown)
-        elseif mg.get_player_count() < min_player then
-            mg.send_message(name, "nil", "Waiting for more players...")
+        skywars.update_status(player)
+
+        if skywars.get_player_count() == min_player then
+            skywars.countdown(countdown)
+        elseif skywars.get_player_count() < min_player then
+            skywars.send_message(name, "nil", "Waiting for more players...")
         end
     else
-        hud_api.fast_hud(
+        skywars.fast_hud(
             player, 
             "player_count", 
             max_player .. "/" .. max_player, 
-            color_api.f_hud.dark_red,
+            "0xA60101",
             0.5, 
             0.55, 
             2, 
@@ -68,58 +71,111 @@ function mg.join_game(player)
             1.5
         )
 
-        mg.add_spectator(player)
+        skywars.add_spectator(player)
 
-        mg.clear_inv(player)
+        skywars.clear_inv(player)
 
-        minetest.log("action", "[JoinGame] Player " .. name .. " isn't able to join a game")
+        log("action", "[Join Game] Player " .. name .. " isn't able to join a game")
+    end
+
+    if skywars.get_player_count() == 1 then
+        skywars.place_map(skywars.schem_pos)
     end
 end
 
-function mg.start_game()
-    mg.set_game_status(true)
+function skywars.start_game()
+    skywars.set_game_status(true)
 
-    for _, player in ipairs(mg.get_players()) do
+    for _, player in ipairs(skywars.get_players()) do
         minetest.sound_play("countdown_end", {to_player = player:get_player_name(), gain = 1.0}, 1)
-        hud_api.fast_hud(
+        skywars.fast_hud(
             player, 
             "countdown", 
             "The Game Begins!", 
-            color_api.f_hud.green, 
+            "0x00FF00", 
             0.5,
             0.4,
             2,
             2,
             1
         )
+
+        skywars.give_kit(player)
     end
 
-    for _, pos in ipairs(mg.player_pos) do
-        mg.set_box(pos, "air")
+    skywars.add_chests(skywars.chests_pos)
+
+    for _, pos in ipairs(skywars.player_pos) do
+        skywars.set_box(pos, "air")
     end
 
-    mg.place_map(mg.schem_pos)
-    minetest.log("action", "[StartGame] The game started")
+    log("action", "[Start Game] The game started")
 end
 
-function mg.leave_game(player)
+function skywars.leave_game(player)
     local name = player:get_player_name()
-    if mg.get_player_in_list(player, mg.get_players()) then
+    if skywars.get_player_in_list(player, skywars.get_players()) then
 
-        mg.remove_player(player)
+        skywars.remove_player(player)
 
-        mg.send_leave_message(player)
+        skywars.send_leave_message(player)
 
-        if mg.get_player_count() > 1 then
-            mg.show_player_count()
+        if skywars.get_player_count() > 1 then
+            skywars.show_player_count()
         end
 
-        hud_api.remove(player, "countdown")
+        skywars.hud_remove(player, "countdown")
 
-        mg.init_player(player)
+        skywars.init_player(player)
 
-        minetest.log("action", "[LeaveGame] Player " ..name.." left the game")
+        log("action", "[Leave Game] Player " ..name.." left the game")
     else
-        mg.send_message(name, color_api.f_text.red, "You are not in any game.")
+        skywars.send_message(name, "#FF0000", "You are not in any game.")
     end
 end
+
+local timer = 0
+minetest.register_globalstep(function(dtime)
+    timer = timer + dtime
+
+    -- Hide nametag
+    for _, player in ipairs(skywars.get_players()) do
+        player:set_properties({nametag_color = { r = 225, g = 225, b = 225, a = 0 }})
+    end
+
+    if timer >= 1 then
+        timer = 0
+        for i, player in ipairs(skywars.get_players()) do
+            -- Map is still active
+            if skywars.is_game_active() then
+                -- Player is outside the map
+                if skywars.is_player_outside(player) then
+                    player:set_hp(0)
+                end
+
+                -- Player is the last one
+                if skywars.is_last_player() then
+                    skywars.winner(player) -- Shown to winner
+                    skywars.init_player(player)
+                end
+
+                -- Game is still active and there is no player
+                if skywars.is_player_count_null() then
+                    skywars.remove_all_spectators()
+                    skywars.remove_items(skywars.map_pos1, skywars.map_pos2)
+
+                    skywars.game_active = false
+                end
+            else
+                -- Player can't leave a box
+                if vector.distance(player:get_pos(), skywars.player_pos[i]) > 2 then
+                    player:set_pos(skywars.player_pos[i])
+                end
+            end
+        end
+
+        for i, spectator in ipairs(skywars.get_spectators()) do
+            skywars.set_spectator_properties(spectator)
+        end
+    end
+end)

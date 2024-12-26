@@ -1,14 +1,14 @@
-minetest.register_entity("minigame:npc", {
+minetest.register_entity("skywars:npc", {
     initial_properties = {
         hp_max = 20,
         selectionbox = { -0.25, 0, -0.25, 0.25, 2, 0.25 },
         visual = "mesh",
         mesh = "character.b3d",
         textures = {"character.png"},
-        infotext = "Hello, my name is Hector!\n\nRight-click to select a map!",
+        infotext = "Hello, my name is Hector!\n\nRight-click to join skywars!",
     },
     on_punch = function(self, hitter, time_from_last_punch, tool_capabilities, direction, damage)
-        return self.object:set_hp(20)
+        return true
     end,
     on_rightclick = function(self, clicker)
         if math.random(1, 10) == 1 then
@@ -18,8 +18,8 @@ minetest.register_entity("minigame:npc", {
                 gain = 1.0,
             })
         end
-        mg.send_message(
-            clicker:get_player_name(), color_api.f_text.green, "Hector: This function isn't implemented yet.")
+
+        skywars.join_game(clicker)
     end,
     on_step = function(self, dtime)
         local pos = self.object:get_pos()
@@ -42,17 +42,16 @@ minetest.register_entity("minigame:npc", {
     end,
 })
 
-minetest.register_craftitem("minigame:npc", {
-    description = "Mini-game NPC",
+minetest.register_craftitem("skywars:npc", {
+    description = "Skywars NPC",
     inventory_image = "default_stick.png^[multiply:#00FF00",
     range = 10.0,
     param2 = "facedir",
     on_use = function(itemstack, user, pointed_thing)
         local pos = pointed_thing.above
         pos.y = pos.y - 0.5
-
-        if pointed_thing.above then
-            minetest.add_entity(pos, "minigame:npc")
+        if pos then
+            minetest.add_entity(pos, "skywars:npc")
         end
     end,
 })

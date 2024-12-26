@@ -1,14 +1,15 @@
 local min_player = 2
+local log = minetest.log
 
-function mg.countdown(t)
+function skywars.countdown(t)
     if t > 0 then
-        if mg.get_player_count() >= min_player then
-            for _, player in ipairs(mg.get_players()) do
-                hud_api.dynamic_text(
+        if skywars.get_player_count() >= min_player then
+            for _, player in ipairs(skywars.get_players()) do
+                skywars.hud_dynamic(
                     player,
                     "countdown",
                     "Game starts in " .. t .. "s...",
-                    color_api.f_hud.green,
+                    "0x00FF00", 
                     0.5,
                     0.4,
                     2,
@@ -22,20 +23,21 @@ function mg.countdown(t)
                     )
                 end
             end
-            minetest.after(1, mg.countdown, t - 1)
-            minetest.log("action", "[Countdown] " .. t .. "s left")
+            minetest.after(1, skywars.countdown, t - 1)
+            log("action", "[Countdown] " .. t .. "s left")
         else
-            for _, player in ipairs(mg.get_players()) do
-                mg.send_message(player:get_player_name(), "nil", "Waiting for more players...")
-                hud_api.remove(player, "countdown")
+            for _, player in ipairs(skywars.get_players()) do
+                skywars.send_message(player:get_player_name(), "nil", "Waiting for more players...")
+
+                skywars.hud_remove(player, "countdown")
 
                 t = countdown
 
-                minetest.log("action", "[Countdown] Interrupted")
+                log("action", "[Countdown] Interrupted")
             end
         end
     else
-        minetest.log("action", "[Countdown] The countdown is over")
-        mg.start_game()
+        log("action", "[Countdown] The countdown is over")
+        skywars.start_game()
     end
 end
