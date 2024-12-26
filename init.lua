@@ -102,7 +102,7 @@ minetest.register_on_mods_loaded(function()
                 for _, spectator in ipairs(skywars.get_spectators()) do
                     skywars.send_message(
                         spectator:get_player_name(), 
-                        color_api.f_text.grey, 
+                        "#909090", 
                         "[Spectator] <" .. name .. "> " .. message
                     )
                     log("action", "[Spectator] <" ..name .. "> " .. message)
