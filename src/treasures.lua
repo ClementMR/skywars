@@ -1,4 +1,4 @@
-local max_slots = 31
+local max_slots = 32
 local log = minetest.log
 
 local treasures = {
