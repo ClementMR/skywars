@@ -2,10 +2,7 @@ local C = minetest.colorize
 local log = minetest.log
 
 function skywars.is_game_active()
-    if skywars.game_active then
-        return true
-    end
-    return false
+    return skywars.game_active
 end
 
 function skywars.set_game_status(value)
@@ -21,10 +18,7 @@ function skywars.get_players()
 end
 
 function skywars.is_last_player()
-    if skywars.player_count == 1 then
-        return true
-    end
-    return false
+    return skywars.player_count == 1
 end
 
 function skywars.get_spectators()
@@ -78,10 +72,7 @@ function skywars.decrement_player_count()
 end
 
 function skywars.is_player_count_null()
-    if skywars.get_player_count() == 0 then
-        return true
-    end
-    return false
+    return skywars.get_player_count() == 0
 end
 
 function skywars.remove_player(player)
