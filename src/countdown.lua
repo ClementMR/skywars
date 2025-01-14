@@ -31,7 +31,7 @@ function skywars.countdown(t)
 
                 skywars.hud_remove(player, "countdown")
 
-                t = countdown
+                t = 14
 
                 log("action", "[Countdown] Interrupted")
             end
