@@ -1,5 +1,7 @@
 # Skywars
 
+> Edit : No longer maintained
+
 ![Lost Empire](screenshot.png)
 
 ## Installation
