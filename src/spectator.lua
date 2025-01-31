@@ -1,7 +1,7 @@
-local log = minetest.log
+local log = core.log
 
 local function set_spectator_privileges(player)
-    return minetest.set_player_privs(player:get_player_name(), {shout=true, fly=true, fast=true})
+    return core.set_player_privs(player:get_player_name(), {shout=true, fly=true, fast=true})
 end
 
 function skywars.set_spectator_properties(player)

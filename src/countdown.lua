@@ -1,5 +1,5 @@
 local min_player = 2
-local log = minetest.log
+local log = core.log
 
 function skywars.countdown(t)
     if t > 0 then
@@ -16,14 +16,14 @@ function skywars.countdown(t)
                     2
                 )
                 if t <= 5 then
-                    minetest.sound_play(
-                        "countdown", 
+                    core.sound_play(
+                        "skywars_countdown", 
                         {to_player = player:get_player_name(), gain = 0.5}, 
                         1
                     )
                 end
             end
-            minetest.after(1, skywars.countdown, t - 1)
+            core.after(1, skywars.countdown, t - 1)
             log("action", "[Countdown] " .. t .. "s left")
         else
             for _, player in ipairs(skywars.get_players()) do

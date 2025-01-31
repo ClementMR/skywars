@@ -1,10 +1,10 @@
 local dark_green = "#028F00"
 
-minetest.register_chatcommand("join", {
+core.register_chatcommand("join", {
     description = "Allows you to join a mini-game",
     privs = {interact=true},
     func = function(name, param)
-        local player = minetest.get_player_by_name(name)
+        local player = core.get_player_by_name(name)
         if not player then
             skywars.send_message(name, "nil", "You are not in the game.")
             return false
@@ -15,11 +15,11 @@ minetest.register_chatcommand("join", {
 })
 
 for _, cmd in ipairs({"quit", "leave"}) do
-    minetest.register_chatcommand(cmd, {
+    core.register_chatcommand(cmd, {
         description = "Allows you to leave a mini-game",
         privs = {},
         func = function(name)
-            local player = minetest.get_player_by_name(name)
+            local player = core.get_player_by_name(name)
             if skywars.get_player_in_list(player, skywars.get_spectators()) then
                 skywars.init_player(player)
                 skywars.send_message(name, "nil", "You have left spectator mode.")
@@ -30,7 +30,7 @@ for _, cmd in ipairs({"quit", "leave"}) do
     })
 end
 
-minetest.register_chatcommand("print_info", {
+core.register_chatcommand("print_info", {
     description = "Displays mini-game informations",
     privs = {server=true},
     func = function(name, param)

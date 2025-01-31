@@ -1,5 +1,5 @@
-local C = minetest.colorize
-local log = minetest.log
+local C = core.colorize
+local log = core.log
 
 function skywars.is_game_active()
     return skywars.game_active
@@ -81,11 +81,11 @@ function skywars.remove_player(player)
 end
 
 function skywars.reset_privileges(player)
-    return minetest.set_player_privs(player:get_player_name(), {interact=true, shout=true})
+    return core.set_player_privs(player:get_player_name(), {interact=true, shout=true})
 end
 
 function skywars.send_message(name, color, message)
-    return minetest.chat_send_player(name, C(color, message))
+    return core.chat_send_player(name, C(color, message))
 end
 
 function skywars.send_join_message(player)
@@ -126,8 +126,8 @@ end
 
 function skywars.winner(player)
     local name = player:get_player_name()
-    minetest.sound_play(
-        "game_winner", 
+    core.sound_play(
+        "skywars_game_winner", 
         {to_player = name, gain = 1.0}, 
         true
     )
@@ -147,7 +147,7 @@ function skywars.winner(player)
 end
 
 function skywars.is_admin(player)
-    if minetest.check_player_privs(player, {game_admin=true}) then
+    if core.check_player_privs(player, {game_admin=true}) then
         return true
     end
     return false

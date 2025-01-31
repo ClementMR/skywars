@@ -1,4 +1,4 @@
-minetest.register_node("skywars:playerbox", {
+core.register_node("skywars:playerbox", {
     description = "Playerbox",
 	inventory_image = "default_apple.png",
 	drawtype = "glasslike_framed_optional",
@@ -13,7 +13,7 @@ minetest.register_node("skywars:playerbox", {
 	on_blast = function() end,
 })
 
-minetest.register_node("skywars:mapbox", {
+core.register_node("skywars:mapbox", {
     description = "Mapbox",
     inventory_image = "default_apple.png",
 	drawtype = "airlike",

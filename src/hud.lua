@@ -42,10 +42,10 @@ function skywars.fast_hud(player, id, txt, color, pos_x, pos_y, size_x, size_y, 
         size_x,
         size_y
     )
-    minetest.after(delay or 2, skywars.hud_remove, player, id)
+    core.after(delay or 2, skywars.hud_remove, player, id)
 end
 
-minetest.register_on_leaveplayer(function(player)
+core.register_on_leaveplayer(function(player)
     local name = player:get_player_name()
     for hud_id, id in pairs(hud_ids) do
         if string.find(hud_id, "_" .. name) then

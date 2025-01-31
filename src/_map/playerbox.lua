@@ -16,7 +16,7 @@ function skywars.set_box(pos, material)
         z = pos.z + math.floor(depth / 2)
     }
 
-    minetest.emerge_area(minp, maxp, function(_, _, calls)
+    core.emerge_area(minp, maxp, function(_, _, calls)
         if calls == 0 then
             for y = 0, height - 1 do
                 for x = -math.floor(width / 2), math.floor(width / 2) do
@@ -36,7 +36,7 @@ function skywars.set_box(pos, material)
                             end
                         end
                         if not spaces then
-                            minetest.set_node(new_pos, {name = material})
+                            core.set_node(new_pos, {name = material})
                         end
                     end
                 end

@@ -1,7 +1,7 @@
 local countdown = 14
 local min_player = 2
 local max_player = 12
-local log = minetest.log
+local log = core.log
 
 local function add_player(player)
     skywars.increment_player_count()
@@ -87,7 +87,7 @@ function skywars.start_game()
     skywars.set_game_status(true)
 
     for _, player in ipairs(skywars.get_players()) do
-        minetest.sound_play("countdown_end", {to_player = player:get_player_name(), gain = 1.0}, 1)
+        core.sound_play("skywars_countdown_end", {to_player = player:get_player_name(), gain = 1.0}, 1)
         skywars.fast_hud(
             player, 
             "countdown", 
@@ -135,7 +135,7 @@ function skywars.leave_game(player)
 end
 
 local timer = 0
-minetest.register_globalstep(function(dtime)
+core.register_globalstep(function(dtime)
     timer = timer + dtime
 
     if skywars.is_game_active() then

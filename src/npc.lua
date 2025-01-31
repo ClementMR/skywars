@@ -1,4 +1,4 @@
-minetest.register_entity("skywars:npc", {
+core.register_entity("skywars:npc", {
     initial_properties = {
         hp_max = 20,
         selectionbox = { -0.25, 0, -0.25, 0.25, 2, 0.25 },
@@ -12,7 +12,7 @@ minetest.register_entity("skywars:npc", {
     end,
     on_rightclick = function(self, clicker)
         if math.random(1, 10) == 1 then
-            minetest.sound_play("npc-voice", {
+            core.sound_play("skywars_npc_voice", {
                 pos = self.object:get_pos(),
                 max_hear_distance = 10,
                 gain = 1.0,
@@ -25,7 +25,7 @@ minetest.register_entity("skywars:npc", {
         local pos = self.object:get_pos()
         local closest_player, closest_dist = nil, math.huge
 
-        for _, player in ipairs(minetest.get_connected_players()) do
+        for _, player in ipairs(core.get_connected_players()) do
             local player_pos = player:get_pos()
             local dist = vector.distance(pos, player_pos)
             if dist < closest_dist and dist <= 5 then
@@ -42,7 +42,7 @@ minetest.register_entity("skywars:npc", {
     end,
 })
 
-minetest.register_craftitem("skywars:npc", {
+core.register_craftitem("skywars:npc", {
     description = "Skywars NPC",
     inventory_image = "default_stick.png^[multiply:#00FF00",
     range = 10.0,
@@ -51,7 +51,7 @@ minetest.register_craftitem("skywars:npc", {
         local pos = pointed_thing.above
         pos.y = pos.y - 0.5
         if pos then
-            minetest.add_entity(pos, "skywars:npc")
+            core.add_entity(pos, "skywars:npc")
         end
     end,
 })

@@ -23,7 +23,7 @@ function skywars.remove_items(pos1, pos2)
         math.abs(pos1.y - pos2.y) / 2,
         math.abs(pos1.z - pos2.z) / 2
     )
-    for _, obj in ipairs(minetest.get_objects_inside_radius(c, r)) do
+    for _, obj in ipairs(core.get_objects_inside_radius(c, r)) do
         local entity = obj:get_luaentity()
         if entity and entity.name == "__builtin:item" then
             obj:remove()
@@ -32,6 +32,6 @@ function skywars.remove_items(pos1, pos2)
 end
 
 function skywars.place_map(pos)
-    local path = minetest.get_modpath("skywars") .. "/map/map.mts"
-    return minetest.place_schematic(pos, path, "0", nil, true)
+    local path = core.get_modpath("skywars") .. "/map/map.mts"
+    return core.place_schematic(pos, path, "0", nil, true)
 end

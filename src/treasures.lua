@@ -1,5 +1,5 @@
 local max_slots = 32
-local log = minetest.log
+local log = core.log
 
 local treasures = {
     {name = "default:sword_stone", max = 1, chance = 0.8},
@@ -12,7 +12,7 @@ local treasures = {
     {name = "default:stone", chance = 1},
 }
 
-if minetest.get_modpath("3d_armor") then
+if core.get_modpath("3d_armor") then
     local armors = {
         {name = "3d_armor:helmet_steel", max = 1, chance = 0.2},
         {name = "3d_armor:chestplate_steel", max = 1, chance = 0.2},
@@ -30,7 +30,7 @@ if minetest.get_modpath("3d_armor") then
 end
 
 function skywars.fill_chests(pos)
-    local meta = minetest.get_meta(pos)
+    local meta = core.get_meta(pos)
     local inv = meta:get_inventory()
     for _, treasure in ipairs(treasures) do
         local slot = math.random(1, max_slots)
@@ -43,7 +43,7 @@ end
 
 function skywars.add_chests(positions)
     for _, pos in ipairs(positions) do
-        minetest.set_node(
+        core.set_node(
             {x = pos.x, y = pos.y, z = pos.z}, 
             {name = "default:chest", param2 = pos.param2 or 0}
         )

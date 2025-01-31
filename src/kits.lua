@@ -1,6 +1,6 @@
 local kit_selected = {}
-local log = minetest.log
-local close_form = minetest.close_formspec
+local log = core.log
+local close_form = core.close_formspec
 
 local kits = {
     swordman = {
@@ -22,7 +22,7 @@ local kits = {
 }
 
 local function get_item_description(item_string)
-    local item_def = minetest.registered_items[item_string:match("([^ ]+)")]
+    local item_def = core.registered_items[item_string:match("([^ ]+)")]
     if item_def then
         return item_def.description
     else
@@ -53,7 +53,7 @@ local function kit_form(player)
         "image_button[3,1.5;1.5,1.5;default_tool_mesepick.png;builder;]" ..
         "tooltip[builder;" .. kit_content(kits.builder) .. "]"
 
-    minetest.show_formspec(player:get_player_name(), "skywars:kits_form", formspec)
+    core.show_formspec(player:get_player_name(), "skywars:kits_form", formspec)
 end
 
 function skywars.add_and_show_kits(player)
@@ -67,7 +67,7 @@ local function select_kit(name, kit_name)
     kit_selected[name] = kit_name
 
     skywars.fast_hud(
-        minetest.get_player_by_name(name),
+        core.get_player_by_name(name),
         "kits",
         "Kit selected: "..kits[kit_name].title, 
         "0xFF0000",
@@ -82,7 +82,7 @@ local function select_kit(name, kit_name)
     log("action", "[Kits] Player "..name.." selected the kit "..kits[kit_name].title)
 end
 
-minetest.register_on_player_receive_fields(function(player, formname, fields)
+core.register_on_player_receive_fields(function(player, formname, fields)
     if formname == "skywars:kits_form" then
         for kit_name, _ in pairs(kits) do
             if fields[kit_name] then
@@ -103,7 +103,7 @@ function skywars.give_kit(player)
     close_form(player:get_player_name(), "skywars:kits_form")
 end
 
-minetest.register_craftitem("skywars:kit_selector", {
+core.register_craftitem("skywars:kit_selector", {
     description = "Kit Selector",
     inventory_image = "default_stick.png^[multiply:#FF0000",
     groups = {not_in_creative_inventory = 1},

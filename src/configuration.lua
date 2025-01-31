@@ -1,4 +1,4 @@
-local log = minetest.log
+local log = core.log
 
 skywars.game_active = false
 skywars.in_game = {}
@@ -36,7 +36,7 @@ local function read_file(file_path)
                     table.insert(config.chests_pos,
                         {x = tonumber(x), y = tonumber(y), z = tonumber(z), param2 = tonumber(param2)})
                 else
-                    minetest.log("warning", "[Configuration] Invalid chest position format in config: " .. line)
+                    core.log("warning", "[Configuration] Invalid chest position format in config: " .. line)
                 end
             elseif key == "schem_pos" or key == "map_center" or key == "map_pos1" or key == "map_pos2" then
                 local x, y, z = value:match("([^,]+),([^,]+),([^,]+)")
@@ -55,7 +55,7 @@ local function read_file(file_path)
 end
 
 local function load_map_conf()
-    local config = read_file(minetest.get_modpath("skywars") .. "/map" .. "/configuration.txt")
+    local config = read_file(core.get_modpath("skywars") .. "/map" .. "/configuration.txt")
     if config then
         skywars.player_pos = config.player_pos or {}
         skywars.chests_pos = config.chests_pos or {}
@@ -66,4 +66,4 @@ local function load_map_conf()
     end
 end
 
-minetest.after(0.1, load_map_conf)
+core.after(0.1, load_map_conf)

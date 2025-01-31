@@ -1,12 +1,12 @@
 skywars = {}
 
-minetest.register_privilege("game_admin", {
+core.register_privilege("game_admin", {
     give_to_singleplayer = false,
     give_to_admin = true,
 })
 
-local log = minetest.log
-local modpath = minetest.get_modpath(minetest.get_current_modname()).."/src"
+local log = core.log
+local modpath = core.get_modpath(core.get_current_modname()).."/src"
 
 local files = {
     "configuration",
@@ -28,17 +28,17 @@ for _, file in ipairs(files) do
     dofile(modpath.."/"..file..".lua")
 end
 
-if minetest.get_modpath("player_api") then
+if core.get_modpath("player_api") then
     dofile(modpath.."/npc.lua")
 end
 
-minetest.register_on_joinplayer(function(player,  last_login)
+core.register_on_joinplayer(function(player,  last_login)
     if not skywars.is_admin(player) then
-        minetest.after(0.1, skywars.init_player, player)
+        core.after(0.1, skywars.init_player, player)
     end
 end)
 
-minetest.register_on_leaveplayer(function(player, timed_out)
+core.register_on_leaveplayer(function(player, timed_out)
     if skywars.get_player_in_list(player, skywars.get_players()) then
 
         skywars.remove_player(player)
@@ -53,7 +53,7 @@ minetest.register_on_leaveplayer(function(player, timed_out)
     end
 end)
 
-minetest.register_on_dieplayer(function(player, reason)
+core.register_on_dieplayer(function(player, reason)
     if skywars.get_player_in_list(player, skywars.get_players()) then
 
         skywars.remove_player(player)
@@ -69,20 +69,20 @@ minetest.register_on_dieplayer(function(player, reason)
     end
 end)
 
-minetest.register_on_respawnplayer(function(player)
+core.register_on_respawnplayer(function(player)
     if skywars.get_player_in_list(player, skywars.get_spectators()) then
-        minetest.after(0.1, skywars.teleport_spectator, player)
+        core.after(0.1, skywars.teleport_spectator, player)
     else
-        minetest.after(0.1, skywars.init_player, player)
+        core.after(0.1, skywars.init_player, player)
     end
 end)
 
-minetest.register_on_mods_loaded(function()
-    local old_handlers = minetest.registered_on_chat_messages
-    minetest.registered_on_chat_messages = {
+core.register_on_mods_loaded(function()
+    local old_handlers = core.registered_on_chat_messages
+    core.registered_on_chat_messages = {
         function(name, message)
             local chat = message:sub(1, 1) ~= "/"
-            if chat and not minetest.check_player_privs(name, {shout = true}) then
+            if chat and not core.check_player_privs(name, {shout = true}) then
                 skywars.send_message(name, "nil", "-!- You don't have permission to speak.")
                 return true
             end
@@ -94,7 +94,7 @@ minetest.register_on_mods_loaded(function()
             end
 
             local is_spectator = false
-            if skywars.get_player_in_list(minetest.get_player_by_name(name), skywars.get_spectators()) then
+            if skywars.get_player_in_list(core.get_player_by_name(name), skywars.get_spectators()) then
                 is_spectator = true
             end
 
@@ -110,7 +110,7 @@ minetest.register_on_mods_loaded(function()
 
                 return true
             elseif chat and not is_spectator then
-                minetest.chat_send_all("<" .. name .. "> " .. message)
+                core.chat_send_all("<" .. name .. "> " .. message)
                 log("action", "CHAT: <" ..name .. "> " .. message)
             end
 
